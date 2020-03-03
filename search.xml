@@ -1,12 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>hexo文章加密</title>
+    <url>/2020/03/03/hexo%E6%96%87%E7%AB%A0%E5%8A%A0%E5%AF%86/</url>
+    <content><![CDATA[<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><ul>
+<li><p><code>npm install --save hexo-blog-encrypt</code></p>
+</li>
+<li><p>或 <code>yarn add hexo-blog-encrypt</code> (需要 <a href="https://yarnpkg.com/en/" target="_blank" rel="noopener">Yarn</a>)</p>
+</li>
+</ul><h2 id="快速使用"><a href="#快速使用" class="headerlink" title="快速使用"></a>快速使用</h2><ul>
+<li>首先在 _config.yml 中启用该插件:</li>
+</ul><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">encrypt:</span><br><span class="line"><span class="code">    enable: true</span></span><br></pre></td></tr></table></figure><ul>
+<li>将 “password” 字段添加到您文章信息头就像这样.</li>
+</ul><a id="more"></a>
+
+
+
+
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Hello World</span><br><span class="line">date: 2016-03-30 21:18:02</span><br><span class="line">password: mikemessi</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再使用 <code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</code> 在本地预览加密的文章.</li>
+</ul>
+<h2 id="高级设置"><a href="#高级设置" class="headerlink" title="高级设置"></a>高级设置</h2><h3 id="文章信息头"><a href="#文章信息头" class="headerlink" title="文章信息头"></a>文章信息头</h3><figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Hello World</span><br><span class="line">tags:</span><br><span class="line"><span class="bullet">- </span>作为日记加密</span><br><span class="line">date: 2016-03-30 21:12:21</span><br><span class="line">password: mikemessi</span><br><span class="line">abstract: 有东西被加密了, 请输入密码查看.</span><br><span class="line">message: 您好, 这里需要密码.</span><br><span class="line">wrong<span class="emphasis">_pass_</span>message: 抱歉, 这个密码看着不太对, 请再试试.</span><br><span class="line">wrong<span class="emphasis">_hash_</span>message: 抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义-config-yml"><a href="#自定义-config-yml" class="headerlink" title="自定义_config.yml"></a>自定义<code>_config.yml</code></h3><ol>
+<li>这样，对于每一篇需要加密的文章就不必都在在头部添加 <strong>abstract</strong> 和 <strong>message</strong> 字段了，脚本会自动添加默认的内容填充。</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># Security</span></span><br><span class="line"><span class="attr">encrypt:</span> <span class="comment"># hexo-blog-encrypt</span></span><br><span class="line">  <span class="attr">abstract:</span> <span class="string">有东西被加密了,</span> <span class="string">请输入密码查看.</span></span><br><span class="line">  <span class="attr">message:</span> <span class="string">您好,</span> <span class="string">这里需要密码.</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#123;name:</span> <span class="string">tagName,</span> <span class="attr">password:</span> <span class="string">密码A&#125;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#123;name:</span> <span class="string">tagName,</span> <span class="attr">password:</span> <span class="string">密码B&#125;</span></span><br><span class="line">  <span class="attr">template:</span> <span class="string">&lt;div</span> <span class="string">id="hexo-blog-encrypt"</span> <span class="string">data-wpm="&#123;&#123;hbeWrongPassMessage&#125;&#125;"</span> <span class="string">data-whm="&#123;&#123;hbeWrongHashMessage&#125;&#125;"&gt;&lt;div</span> <span class="string">class="hbe-input-container"&gt;&lt;input</span> <span class="string">type="password"</span> <span class="string">id="hbePass"</span> <span class="string">placeholder="&#123;&#123;hbeMessage&#125;&#125;"</span> <span class="string">/&gt;&lt;label&gt;&#123;&#123;hbeMessage&#125;&#125;&lt;/label&gt;&lt;div</span> <span class="string">class="bottom-line"&gt;&lt;/div&gt;&lt;/div&gt;&lt;script</span> <span class="string">id="hbeData"</span> <span class="string">type="hbeData"</span> <span class="string">data-hmacdigest="&#123;&#123;hbeHmacDigest&#125;&#125;"&gt;&#123;&#123;hbeEncryptedData&#125;&#125;&lt;/script&gt;&lt;/div&gt;</span></span><br><span class="line">  <span class="attr">wrong_pass_message:</span> <span class="string">抱歉,</span> <span class="string">这个密码看着不太对,</span> <span class="string">请再试试.</span></span><br><span class="line">  <span class="attr">wrong_hash_message:</span> <span class="string">抱歉,</span> <span class="string">这个文章不能被校验,</span> <span class="string">不过您还是能看看解密后的内容.</span></span><br></pre></td></tr></table></figure>
+
+
+<ol start="2">
+<li>如果你希望对某一篇特定的文章做特殊处理（如本文的 abstract )，可以在对应文章的头部添加</li>
+</ol>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: 文章加密</span><br><span class="line">date: 2019-01-04T22:20:13.000Z</span><br><span class="line">category: 教程</span><br><span class="line">tags:</span><br><span class="line"><span class="bullet">  - </span>博客</span><br><span class="line"><span class="bullet">  - </span>Hexo</span><br><span class="line">keywords: 博客文章密码</span><br><span class="line">password: TloveY</span><br><span class="line">abstract: 密码：TloveY</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>此时，博客头部的 abstract 会覆盖 站点配置文件 的 default_abstract 实现自定义。</p>
+<h3 id="关于-Callback-函数"><a href="#关于-Callback-函数" class="headerlink" title="关于 Callback 函数"></a>关于 Callback 函数</h3><p>在部分博客中, 解密后部分元素可能无法正常显示或者表现, 这属于已知问题. 目前的解决办法是通过自行查阅自己的博客中的代码, 了解到在 onload 事件发生时调用了哪些函数, 并将这些函数挑选后写入到博客内容中. 如:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: Callback Test</span><br><span class="line">date: 2019-12-21 11:54:07</span><br><span class="line">tags:</span><br><span class="line">    - Encrypted</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">This is a blog to test Callback functions. You just need to add code at the last of your post like following:</span><br><span class="line"></span><br><span class="line">It will be called after the blog decrypted.</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    // 添加一个 script tag 与代码在文章末尾.</span><br><span class="line">    alert(&quot;Hello World&quot;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="对-TOC-进行加密"><a href="#对-TOC-进行加密" class="headerlink" title="对 TOC 进行加密"></a>对 TOC 进行加密</h3><p>如果你有一篇文章使用了 TOC，你需要修改模板的部分代码。这里用 landscape 作为例子：</p>
+<ul>
+<li>你可以在 hexo/themes/landscape/layout/_partial/article.ejs 找到 article.ejs。</li>
+<li>然后找到 &lt;% post.content %&gt; 这段代码，通常在30行左右。</li>
+<li>使用如下的代码来替代它:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;% if(post.toc == true)&#123; %&gt;</span><br><span class="line">  &lt;div id=&quot;toc-div&quot; class=&quot;toc-article&quot; &lt;% if (post.encrypt == true) &#123; %&gt;style=&quot;display:none&quot; &lt;% &#125; %&gt;&gt;</span><br><span class="line">    &lt;strong class=&quot;toc-title&quot;&gt;Index&lt;/strong&gt;</span><br><span class="line">      &lt;% if (post.encrypt == true) &#123; %&gt;</span><br><span class="line">        &lt;%- toc(post.origin, &#123;list_number: true&#125;) %&gt;</span><br><span class="line">      &lt;% &#125; else &#123; %&gt;</span><br><span class="line">        &lt;%- toc(post.content, &#123;list_number: true&#125;) %&gt;</span><br><span class="line">      &lt;% &#125; %&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br><span class="line">&lt;%- post.content %&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h3><ul>
+<li><p>如果你开启了 字数统计功能 的话，那么本文的字数会显得比实际值大。</p>
+</li>
+<li><p>加密文章内部分脚本会失效，已知 代码复制 失效。</p>
+</li>
+</ul>
+<p>根据 <a href="https://github.com/MikeCoder/hexo-blog-encrypt/blob/master/ReadMe.zh.md" target="_blank" rel="noopener">GitHub</a>整理</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Github配置</title>
+    <url>/2020/03/03/Github%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="一、注册Github"><a href="#一、注册Github" class="headerlink" title="一、注册Github"></a>一、注册Github</h2><ul>
+<li>注册账号:</li>
+</ul><p>地址: <a href="https://github.com/" target="_blank" rel="noopener">https://github.com/</a><br>输入账号、邮箱、密码,然后点击注册按钮</p><ul>
+<li>初始设置 </li>
+</ul><p>注册完成后,选择Free免费账号完成设置。</p><ul>
+<li>完成问卷</li>
+</ul><p>GitHub 为了分析用户设置几道问卷，可以如实回答也可以随便填写。</p><ul>
+<li>验证邮箱</li>
+</ul><p>如下图所示已经注册完成，点击 Read the guid 阅读文档，都是英文看不懂，可使用 Google 翻译插件将其翻译查看，看完后，返回点击 Start aproject,开始一个项目。</p><a id="more"></a>
+
+
+
+
+
+
+
+<ul>
+<li>建库</li>
+</ul>
+<p>填写你的库名称，然后点击绿色按钮 create repository 创建项目。自定义。</p>
+<h2 id="二、git配置"><a href="#二、git配置" class="headerlink" title="二、git配置"></a>二、git配置</h2><h3 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h3><ul>
+<li><p>点击下载：<a href="https://git-scm.com/download" target="_blank" rel="noopener">git</a></p>
+</li>
+<li><p>安装过程较为简单，直接默认设置就好。安装完成后会在鼠标右键生成快捷方式，在某一个目录右键-&gt;Git Bash Here即可在当前目录打开Git命令行。</p>
+</li>
+</ul>
+<h3 id="检查-SSH-keys"><a href="#检查-SSH-keys" class="headerlink" title="检查 SSH keys"></a>检查 SSH keys</h3><ul>
+<li>右键-&gt;Git Bash Here 打开Git命令行，执行</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">cd ~/.ssh 检查本机的ssh密钥</span><br></pre></td></tr></table></figure>
+
+<p>  提示<strong>No such file or directory</strong>时，说明没有ssh key（就是以前没用过）；如果有直接删除目录下的公钥私钥（id_rsa等文件）重新生成即可目录：<strong>C:/user/你的计算机用户名/.ssh</strong></p>
+<ul>
+<li>切到当前用户的根目录，右键选择git bash，设置Git的user name和email：</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">git config --global user.name "这里换上你的用户名" </span><br><span class="line">git config --global user.email "这里换上你的邮箱"</span><br></pre></td></tr></table></figure>
+<h3 id="生成SSH密钥过程"><a href="#生成SSH密钥过程" class="headerlink" title="生成SSH密钥过程"></a>生成SSH密钥过程</h3><ul>
+<li>生成密钥：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;这里换上你的邮箱&quot;</span><br></pre></td></tr></table></figure>
+
+<p>执行命令后需要进行3次或4次确认：</p>
+<pre><code>确认秘钥的保存路径（如果不需要改路径则直接回车）；
+如果上一步置顶的保存路径下已经有秘钥文件，则需要确认是否覆盖（如果之前的秘钥不再需要则直接回车覆盖，如需要则手动拷贝到其他目录后再覆盖）；
+创建密码（如果不需要密码则直接回车）；
+确认密码；</code></pre><h3 id="Github配置"><a href="#Github配置" class="headerlink" title="Github配置"></a>Github配置</h3><ul>
+<li>登陆Github,点击右上角的用户头像，选择Settings—&gt;SSH Keys—&gt; New SSH key</li>
+</ul>
+<p>（如果是未配置秘钥的用户，这里应该是空的）</p>
+<ul>
+<li><p>然后用文本工具打开之前生成的id_rsa.pub文件，把内容拷贝到key下面的输入框，定义一个名称（通常用来区分不同主机） </p>
+</li>
+<li><p>再次尝试用git方式下载，可以免密码登录github，提高效率。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+  </entry>
+  <entry>
     <title>命运赋</title>
     <url>/2020/03/02/%E5%91%BD%E8%BF%90%E8%B5%8B/</url>
-    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
+    <content><![CDATA[<div id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
   <div class="hbe-input-container">
   <input type="password" id="hbePass" placeholder="" />
-    <label for="hbePass">输入密码，查看文章</label>
+    <label for="hbePass">输入密码，查看文章。</label>
     <div class="bottom-line"></div>
   </div>
   <script id="hbeData" type="hbeData" data-hmacdigest="90c364b1612797e9cf219a09b62fdc77d4920bfb19f317188f86ae44603f2a9f">a3cb1c3be79a825d84902cc17c40a2ee2b16f09565d05b163c72d527797178017add95f7d744ad95ab3362c6bc12d685d6b3db218226b9eab09dd91e64cc4884ba2a747be5586e19ab0123fa0c78e2a9475ab44c379294f03f404720e6e1ef7213dc54360435e99a5041737ed617cabf157a040da51b512983c0e8f3c1687b971edca5ed1c67df8a85e153ad4593f2458f6a15c7d8b77ca79a76a632eee3b54fe96e24aa371d4d7b88604e6c4e9c0eee0a434e477c29910a1e919ca3cfe6cf25a001db0359616c078dbc7e3ee337e799b8dfb52a6516aaea9af4f3e6f47452efe441f3b861133b617ccf6e0032e1f133f0ea723b0fb54f560b01123c3f1a3b43f61b3fae7ec2cb1ea54042ef87549f42efaf910a8c7ff81066bb743688f9518dd3c264c49fc4125a9fedbfec3923fffcdca313e3fb34fc5011b50ba1034c93f67a87d021c2e9039a8d1d130f43106472489d1a8cd1cd0eae64c86e4144068158146b20525617775557ff3ffe37443bfda65e372620977fe5f8765ef8d657266a853c3b2f5b103f7aecf8c6a3cf4558d9327b09628e158ad975e6bf0cc73f11d988338de55a5d23ab6bf29e1f899e4e1df7b840405aa8ddb2c6186e56a17db04ff7d39993e5fcb68eb590339f75d6aba4cb0598f51b9e8e010819e630240d8a0c91985e03c9b3dbb57a6aff539328f50c74021b404306860b5f671e4e74d65fd39ba270b0a21730b12def543016aea0873725122f2bcafd24357500ab5cfb27acdaf8919d5f5fb1a08807c7ef8ba7b744f7ae4d35d65836addf7a937e043b6582bb6937d5b7cc52d9b42adc64b12dc04d1dbbd9d39ca52da5d4ece989449ee91ecd215b7613d0bd35141353e366a90627980a2b1574bb6d5dd7e821f9087c2e1c2fa1b78c77a2303b0d64e6dc9efa7dd6b292438ca53a3f830c545050cbebd5423648d2fee288a2f79b8f0b45545ea5e6ae6014cf10197b7e92e12ab1477e697b686a0e00c6dd660ff7cb84e1a2b1d5513b2ac61b9e5836857317cc15db93485fdb5a8bbb26bbee2745b76eff593c866aa8ae83db6016ae50fa684b9a2b84e00954d4b51390241b4bcd0261d8ae2d204de0c11c435620b8c760cf4f7d744c5f962ca2ed23d6dc5596dda8b39b3e4eff78b01290c2fd5881c00641f79644fd6d7d988d336c2d06678d3bc7bbd2c9ccc91315e732813951cc74f9d48a40fceeff33d82875bf25a198f8ae37ac131640760558d13231785563f19785cca0e0f12c06212d09c6fae3cfd0b6b3a7233c27e3028bac2dfaf2dc9d3e0a785229128250a009058150fdc78662248f891d5267166387f810e27fe4952517db9928163bbe3594c5e80e27fab423e0355e79386df5b28b4d3e876a8a4f42a538024344112df24906854f81bf35e211359a84001c142664bcd23897f91163d784494ab7c03ce3f693009495f41dfbe325da9010d18b8ae4392a12c5319ef12d0dbed87c764466233522800b9ee4f89f6ec1a579beeada9c2de39251eccc3d7bb7f3c2638c1b083fab418cb85719e841a2b01ac7dc85a9f6cb9817308eeb4a8044de4de1bfadf9dd1a87b87efcaaf326c66a471ae19727b00963f70822805174cad22a477693b0d1534870aa07a294ec4b19eaa9b2af0961f91ea236899822b748e3eb9c957bec49a70dbdd41af2c82176736df2ca4fdc710a000e6bbb84281815f4ee9ecc87adf14bac3ec5adba0880dd512fbbaacac8305e2f4eb4111ed4f17c15baa6844fb67050231424aad3029c452f7cda69f777be43a9d2ed20527e84a099315cec116934477f95bcc831bce3f8c73e323b4f0f1a226d7763b5f3757126c9d2c7e2690e46aef5704e4d121a9de888f4052ebef4b2d29d666c621b640e690c2d3a83d117fcbbfc51b1f077861dda0718e28466c8350fd69991d5791a87210aeacb62a5c1315c29a0f2f2fa7eba2250d32781936ef8b951ada74740dfe04932952f1781805007d7c4da512af3331ce4879f9c884bcc64f4bca6645ce3e45333e30724e5df42f0030a884d5d2b55fbfd9c02114c3a0e1f467c2ec2f8d389dcd5a38201ad6a48c5c5d29005b9c3928e679a5bec4d9d67f61c0db950a017955f03859f10d545bfc665c3f70de23c77bd36efbff4273cb81d981c584c1aefd06e817d9455f4a04acf675a48bf8657bab5c878734a0c6749dfd12fa37996384601e2afb9cd550e9d18b8a63ff4b67a22617778e54712c3da9ce1bc08e60801b0f661ade35b101d5b879bb224f7ccb60723adf668000f2e88a00880c8401d96970d2cd623321d50df7bbadaae3de127110b1dd5fa184b2b55ae884f6fe26021567de552bcfdece768f902e6b7783e4c3d957584594bddc7300723ba63e7a5f41783a32650574f552a8ddfbb41b09e410daf3322636c1a0d467dc3bbc90794d4b366e18cc35cc3725db28f24a564f04c127d8075db9c86d03379aba9625c81425c67f850c268464135ab38dadfe3258f66999683899d4700132727d713838c2d0fca1b58a00a1dd65f2e336eb94a30a99b0fa8edafe2f145a063ccc2af8cc0f07fa2825f842034492445df8febfd3d127ce9febd5bc5be19b97bf630ce790b3b80f91fb12f9bd0a32aeb1038bc2d107047d66e8bfbbfa77193eed9269a0ed10f6baf5ba8ad0b0bbbcde22354185a2f52109661e9cf4e2d589f2cacf28e7604d19324e5ce7733f24c88cb7affe96563b89d0900c6c182d806dde2214ca6078d5079d1161c7702d7f1647e7bd5d4f72197f27ad28316156710ed51094e81056e5eafb3d5abf764b4bea8ba68d1d2170cfe4cc330161d7d9293ac831423b4ba1c6b9d00c392d81c007e4261573ca90f5979005037695618faf9f9a0665078d68cfce9e4aff0aeb30cd114196185652c3bd2e5146ad33c26385f297baaacdc01c53f0d1633a7cdd0786510e9d75924fba4f98e02588d36b655a103a69b98294c1ef6d4138f1f751e3bf552df7401e000bb7d08a6129fab479a57de59e00ebbead51fcbc6cb1f8de73c868664fb6f26b972a57f697f5808b1913a97975815cf679323101824133a49bf44736fad5a0ba1a6ef616da3affd55117de13e928afad343f416cf264239b5b506094ea95971b59bde7365be29a586b9586a1a9b1b4fc304a6c25c4bfff67ab52bf35f4fb89ec827511b7cbb533b0c2cd93dabb8bf7557047c4a5ebccee497a6aefbc1c4ea3446902aee11d2592a46d3c5</script>
