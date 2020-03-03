@@ -1189,7 +1189,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff5cff;
+  background: #9d62ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2200,11 +2200,9 @@ ul.breadcrumb li + li:last-child {
   text-align: center;
 }
 .tag-cloud a {
-  display: inline-block;
-  margin: 10px;
-}
-.tag-cloud a:hover {
-  color: #222 !important;
+  border: 0px;
+  padding: 0px 10px;
+  border-radius: 10px;
 }
 .gt-header a,
 .gt-comments a,
